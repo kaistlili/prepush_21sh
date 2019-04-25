@@ -6,7 +6,7 @@
 #    By: apeyret <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/12/10 18:24:48 by apeyret           #+#    #+#              #
-#    Updated: 2019/04/24 16:00:13 by ktlili           ###   ########.fr        #
+#    Updated: 2019/04/25 21:34:07 by ktlili           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -84,7 +84,6 @@ SRC_FILE =	builtins/cd_l_p.c			\
 			lexer/lexer.c				\
 			lexer/lexer_tools.c			\
 			lexer/rev_lex.c				\
-			lexer/memerror.c			\
 			lexer/lex_quotes.c			\
 			lexer/lex_op.c				\
 			lexer/token_tools.c			\
@@ -101,6 +100,7 @@ SRC_FILE =	builtins/cd_l_p.c			\
 			parser/sh_parser.c			\
 			parser/parser_heredoc.c		\
 			parser/light_parser.c		\
+			parser/parser_free.c		\
 			hashtable/hashtable.c		\
 			hashtable/ht_files.c		\
 			hashtable/ht_spawnbin.c		\

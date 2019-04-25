@@ -6,7 +6,7 @@
 /*   By: apeyret <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/01 13:49:01 by apeyret           #+#    #+#             */
-/*   Updated: 2019/04/01 13:49:49 by apeyret          ###   ########.fr       */
+/*   Updated: 2019/04/25 19:25:42 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,4 @@ void	free_parser(t_parser *parser)
 	free_redir_lst(parser->cmd.redir_lst);
 	free_token_lst(parser->head);
 	free_pipeline(parser->pipeline);
-}
-
-void	mem_err_exit(t_parser *parser)
-{
-	ft_putstr_fd("21sh: parser: memory error\n", 2);
-	free_parser(parser);
 }
