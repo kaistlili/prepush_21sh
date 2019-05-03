@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 15:11:09 by ktlili            #+#    #+#             */
-/*   Updated: 2019/04/12 16:44:34 by ktlili           ###   ########.fr       */
+/*   Updated: 2019/05/03 15:03:53 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,6 @@ static int		execve_wrap(t_cmd_tab *cmd)
 	close_save();
 	if ((ret = handle_redir(cmd->redir_lst, NULL)))
 		exit(1);
-	if ((cmd->av[0]) && (ft_cisin(cmd->av[0], '/')))
-	{
-		if (handle_perm(cmd->av[0]) != 0)
-			exit_wrap(ACCERR, cmd);
-		if ((cmd->full_path = ft_strdup(cmd->av[0])) == NULL)
-			exit_wrap(MEMERR, cmd);
-	}
 	if ((!cmd->full_path))
 		exit_wrap(CMD_NOT_FOUND, cmd);
 	ret = execve(cmd->full_path, cmd->av, cmd->process_env);
@@ -57,7 +50,9 @@ int				spawn_in_pipe(t_cmd_tab *cmd)
 		return (MEMERR);
 	else if ((ret == BUILTIN) || (ret == BUILTIN_FAIL))
 		return (0);
-	return (execve_wrap(cmd));
+	if ((cmd->full_path) || (cmd->redir_lst))
+		return (execve_wrap(cmd));
+	return (0);
 }
 
 int				spawn_command(t_cmd_tab *cmd)
@@ -68,6 +63,8 @@ int				spawn_command(t_cmd_tab *cmd)
 	if ((ret = pre_execution(cmd)) == MEMERR)
 		return (MEMERR);
 	else if ((ret == BUILTIN) || (ret == BUILTIN_FAIL))
+		return (0);
+	if ((!cmd->full_path) && (!cmd->redir_lst))
 		return (0);
 	pid = fork();
 	if (pid == -1)

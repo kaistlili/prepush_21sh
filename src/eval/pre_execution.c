@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/09 20:19:10 by ktlili            #+#    #+#             */
-/*   Updated: 2019/04/25 18:29:38 by ktlili           ###   ########.fr       */
+/*   Updated: 2019/05/03 15:40:05 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,31 @@ int				pathfinder(t_cmd_tab *cmd)
 		if (cmd->full_path)
 			ft_strdel(&(cmd->full_path));
 		br_print(ret, cmd);
+		cmd->exit_status = CMD_NOT_FOUND;
 		if (!cmd->redir_lst)
+			return (ret);
+	}
+	return (0);
+}
+
+int				get_path(t_cmd_tab *cmd)
+{
+	int		ret;
+
+	if ((cmd->av[0]) && (ft_cisin(cmd->av[0], '/')))
+	{
+		if (handle_perm(cmd->av[0]) != 0)
+		{
+			br_print(br_PERMDENIED, cmd);
+			cmd->exit_status = 126;
+			return (0);
+		}
+		if ((cmd->full_path = ft_strdup(cmd->av[0])) == NULL)
+			return (MEMERR);
+	}
+	else if ((!cmd->full_path) && (cmd->av[0]))
+	{
+		if ((ret = pathfinder(cmd)))
 			return (ret);
 	}
 	return (0);
@@ -108,10 +132,9 @@ int				pre_execution(t_cmd_tab *cmd)
 	if ((!cmd->process_env)
 			&& (!(cmd->process_env = craft_env(g_sh.env, cmd->assign_lst))))
 		return (MEMERR);
-	if ((!cmd->full_path) && (cmd->av[0]))
-	{
-		if ((ret = pathfinder(cmd)))
-			return (ret);
-	}
+	if (get_path(cmd) == MEMERR)
+		return (MEMERR);
+	if (!cmd->full_path)
+		cmd->exit_status = CMD_NOT_FOUND;
 	return (0);
 }

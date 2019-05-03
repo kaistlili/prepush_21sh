@@ -6,7 +6,7 @@
 /*   By: ktlili <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/05 23:07:32 by ktlili            #+#    #+#             */
-/*   Updated: 2019/04/15 17:21:55 by ktlili           ###   ########.fr       */
+/*   Updated: 2019/04/26 12:34:09 by ktlili           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,6 @@ void		global_del(void)
 	ht_del();
 	ft_tabdel(&g_sh.local);
 	ft_tabdel(&g_sh.env);
-}
-
-void		sig_exit(int sig)
-{
-	exit_wrap(sig, NULL);
 }
 
 int			main(int ac, char **av, char **env)
